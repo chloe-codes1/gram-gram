@@ -1,10 +1,18 @@
 from django.db import models
 from django.conf import settings
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 import re
 
 class Article(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
+    image = models.ImageField(blank=True)
+    # DB 저장 x, 호출하게 되면 잘라서 표현
+    image_thumbnail = ImageSpecField(source='image',
+                                      processors=[ResizeToFit(700, 700)],
+                                      format='JPEG',
+                                      options={'quality': 60})
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

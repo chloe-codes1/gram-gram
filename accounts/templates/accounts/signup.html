@@ -4,8 +4,8 @@
   <h2>SIGNUP</h2>
   <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button>Submit</button>
+    {%bootstrap_form form %}
+    <button class="btn btn-warning">Submit</button>
   </form>
   <a href="{% url 'articles:index' %}">INDEX</a>
 {% endblock %}

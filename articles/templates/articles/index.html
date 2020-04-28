@@ -9,20 +9,27 @@
   {% for article in articles %}
   <div class="card m-auto " style="width: 40rem;">
   <div class="card-header d-flex justify-content-between"> 
+  <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
   <div>
-    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}">{{ article.user.username }}</a> </h5>
-    <p>{{article.liked_users.count}} likes</p>
+    <span>{% include 'articles/like.html'%}</span>
+    <span>{{article.liked_users.count}} likes</span>
   </div>
-  <p>{% include 'articles/like.html'%}</p>
   </div>
 
   <div class="card-body">
-    <img class="card-img-top" src="../../../media/pepperoni.jpg" alt="Card image cap"/>
+    <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
     <h5 class="card-title">#{{article.pk}} - {{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
     <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
   </div>
   </div>
+
+  {% empty %}
+  <h3 class="text-center pt-5 mb-3">There is no post!</h3>
+  <p class="text-center pb-2">Upload your first gram-gram photo today.</p>
+  <a class="btn btn-warning text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
+
+
   {% endfor %}
 
 {% endblock %}

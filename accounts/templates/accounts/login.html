@@ -2,10 +2,10 @@
 {% load bootstrap4 %}
 {% block content %}
   <h2>LOGIN</h2>
-  <form action="" method="POST">
+  <form action="" method="POST" class="d-inline">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button>Submit</button>
+    {% bootstrap_form form %}
+    <button class="btn btn-warning text-white mr-2"><strong>Login</strong></button>
   </form>
-  <a href="{% url 'articles:index' %}">INDEX</a>
+  <a href="{% url 'accounts:signup' %}" class="text-success"><strong>Join us</strong></a>
 {% endblock %}

@@ -10,8 +10,8 @@
       <li class="nav-item dropdown mx-2">
         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:22px;'>Hello, {{user.username}}!</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <button class="dropdown-item"  style='font-size:22px;' data-toggle="modal" data-target="#profileModal">Profile</button>
-          <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none">Log-out</a></button>
+          <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'profile' user.username %}" >Profile</a></button>
+          <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-danger">Log-out</a></button>
         </div>
       </li> 
        <li class="nav-item mx-2">
@@ -30,24 +30,3 @@
     </ul>
     </div>
 </nav>
-
-<!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg " role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title" id="exampleModalLongTitle">{{user.username}}'s Profile</h1>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p class="mt-4">First name: <strong>{{user.first_name}}</strong></p>
-        <p>Last name: <strong>{{user.last_name}}</strong></p>
-        <p>Email: <strong>{{user.email}}</strong></p>
-            <a href="{% url 'follow' user.username %}">Follow</a>
-            <p>{{ user.followers.all|length}} followers</p>
-      </div>
-    </div>
-  </div>
-</div>
