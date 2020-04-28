@@ -1,0 +1,7 @@
+<a href="{% url 'articles:like' article.pk %}"> 
+    {% if user in article.liked_users.all %}
+    <i class="fas fa-heart fa-lg text-danger"></i>
+    {% else %}
+    <i class="far fa-heart fa-lg text-danger animated infinite bounce delay-1s"></i>
+    {% endif %}
+</a>

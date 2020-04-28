@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load article_extras %}
+{% block content %}
+
+
+ 
+
+  {% for article in articles %}
+  <div class="card m-auto " style="width: 40rem;">
+  <div class="card-header d-flex justify-content-between"> 
+  <div>
+    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}">{{ article.user.username }}</a> </h5>
+    <p>{{article.liked_users.count}} likes</p>
+  </div>
+  <p>{% include 'articles/like.html'%}</p>
+  </div>
+
+  <div class="card-body">
+    <img class="card-img-top" src="../../../media/pepperoni.jpg" alt="Card image cap"/>
+    <h5 class="card-title">#{{article.pk}} - {{article.title}}</h5>
+    <p>{{article|add_link|safe|linebreaksbr}}</p>
+    <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
+  </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

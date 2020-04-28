@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <h1>{{ person.username }}'s Profile</h1>
+    
+    <p>Followers: {{person.followers.count}}</p>
+    <p>Following: {{person.followings.count}}</p>
+
+    <a href="{% url 'follow' person.username %}"> 
+    {% if request.user in person.followers.all %}
+        Unfollow
+    {% else %}
+        Follow
+    {% endif %}
+    </a>
+
+
+    <h2>{{person.username}}'s Posts: {{person.article_set.count}}</h2>
+    {% for article in person.article_set.all%}
+        <p> Title: {{ article.title }}</p>
+        <p> Content: {{ article.content }}</p>
+
+    {% endfor %}
+{% endblock %}

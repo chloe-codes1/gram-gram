@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load bootstrap4 %}
+{% load article_extras %}
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://kit.fontawesome.com/f9f05d10ba.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <title>exercise</title>
+    {% bootstrap_css %}
+</head>
+<body>
+
+  {% include '_nav.html'%}
+
+  {% block content %}
+  {% endblock %}
+  {% bootstrap_javascript jquery='full'%}  
+</body>
+</html>
