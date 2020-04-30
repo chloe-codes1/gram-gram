@@ -2,6 +2,11 @@
 {% load bootstrap4 %}
 {% load article_extras %}
 {% load mathfilters %}
+
+{% block title%}
+    {{article.user.username}}
+{% endblock %}
+
 {% block content %}
 
   {% for article in articles %}
@@ -29,7 +34,7 @@
     <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
   <div>
     <span>{% include 'articles/like.html'%}</span>
-    <span>{% include 'articles/comment.html'%}</span>
+    <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
   </div>
     <p> 
       {% if article.liked_users.count >= 2 %}

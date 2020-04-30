@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article
+from .models import Article, Comment
 
 
 class ArticleForm(forms.ModelForm):
@@ -28,3 +28,20 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article 
         exclude = ['created_at', 'updated_at', 'user', 'liked_users','tags',]
+
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        label = '',
+        widget=forms.TextInput(
+            attrs={
+                'row':2,
+                'col':10,
+                'placeholder':'Add a comment...',
+                'class':'form-control',
+            }
+        )
+    )
+    class Meta:
+        model = Comment
+        fields = ['content']

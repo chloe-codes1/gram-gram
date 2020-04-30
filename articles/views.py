@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST        
 
-from .models import Article
-from .forms import ArticleForm
+from .models import Article, Comment
+from .forms import ArticleForm, CommentForm
 
 def index(request, tag=None):
     articles = Article.objects.prefetch_related('tags').order_by('-pk')
@@ -55,7 +55,8 @@ def update(request, pk):
         else:
             form = ArticleForm(instance=article)
         context = {
-            'form': form
+            'form': form,
+            'article': article,
         }
         return render (request, 'articles/form.html', context)
     else:
@@ -76,4 +77,37 @@ def like(request, article_id):
         article.liked_users.add(user)
     return redirect('articles:index')
 
+def comments(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    form = CommentForm()
+    context = {
+        'article':article,
+        'form':form,
+    }
+    return render(request, 'articles/comment.html', context)
 
+@require_POST
+def comment_create(request, article_id):
+    if request.user.is_authenticated:
+        article =  get_object_or_404(Article, id=article_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.article = article
+            comment.save()
+        return redirect('articles:comments', article.pk)
+    else:
+        messages.warning(request, '댓글을 작성할 권한이 없습니다')
+        return redirect('accounts:login')
+
+@require_POST
+def comment_delete(request, article_id, comment_id):
+    if request.user.is_authenticated:
+        comment = Comment.objects.get(id=comment_id)
+        if comment.user == request.user:
+            comment.delete()
+        return redirect('articles:comments', article_id)
+    else:
+        messages.warning(request, '댓글을 삭제할 권한이 없습니다')
+        return redirect('accounts:login')

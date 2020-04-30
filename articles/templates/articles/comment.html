@@ -1,1 +1,87 @@
-<i class="far fa-comment text-secondary" style='font-size:27px'></i>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load article_extras %}
+{% load mathfilters %}
+{% block title%}
+    {{article.user.username}}
+{% endblock %}
+
+{% block content %}
+
+<div class="row" >
+    <div class="col-8">
+        <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
+    </div>
+    <div class="col-4 border p-1">
+        <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
+    
+            {% if user.username == article.user.username %}
+            <div class="btn-group dropright">
+            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class='fas fa-ellipsis-h text-secondary'></i>
+            </button>
+            <div class="dropdown-menu" >
+                <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
+                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
+            </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div style="height: 300px; overflow-y: auto">
+            <h5 class="card-title m-0">#{{article.pk}} - {{article.title}}</h5>
+            <p>{{article|add_link|safe|linebreaksbr}}</p>
+            {% for comment in article.comments.all %}
+                <div class="d-flex justify-content-between m-0">
+                    <p class="mb-0 p-0"><strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
+                    {% if comment.user.username == user.username %}
+                    <div>
+                        {% if user.username == article.user.username %}
+                            <div class="btn-group dropright">
+                            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='fas fa-ellipsis-h text-secondary'></i>
+                            </button>
+                            <div class="dropdown-menu" >
+                            <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% include '_commentdelete.html'%}
+                </div>
+                </p>
+                {% empty %}
+                <p>There is no comment.</p>
+            {% endfor %}
+        </div>
+
+        <div class="d-block w-100" >
+            <div >
+                <span>{% include 'articles/like.html'%}</span>
+                <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
+            </div>
+            <p class="m-0"> 
+            {% if article.liked_users.count >= 2 %}
+                Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
+            {% elif article.liked_users.count == 1 %}
+                Liked by {{article.liked_users.first }}
+            {% else %}
+
+            {% endif %}
+
+            </p>
+            <p class="mt-0"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
+        </div>
+        <div>
+            <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
+                {% csrf_token %}
+                {% bootstrap_form form%}
+                <button class="btn btn-warning py-0" style="height: 47px;"><strong>Post</strong></button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

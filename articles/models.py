@@ -33,6 +33,12 @@ class Article(models.Model):
         for t in tags:
             tag, tag_created = Hashtag.objects.get_or_create(name=t)
             self.tags.add(tag)  
-    
+
+class Comment(models.Model):
+    content = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
 class Hashtag(models.Model):
     name = models.CharField(max_length=100, unique=True)

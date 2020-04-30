@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+
+{% block title%}
+    {{article.user.username}}
+{% endblock %}
+
 {% block content %}
 
 <div class="pb-3">
