@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.views.decorators.http import require_POST        
+
 from .models import Article
 from .forms import ArticleForm
 
@@ -30,6 +33,34 @@ def create(request):
     }
     return render(request, 'articles/form.html', context)
 
+@login_required
+@require_POST
+def delete(request,pk):
+    article = get_object_or_404(Article, id=pk)
+    if request.user == article.user:
+        article.delete()
+    return redirect('articles:index')
+
+@login_required                                                                                          
+def update(request, pk):
+    article = get_object_or_404(Article, id=pk)
+    if request.user == article.user:
+        if request.method == "POST":
+            form = ArticleForm(request.POST, request.FILES, instance=article)
+            if form.is_valid():
+                article = form.save(commit=False)
+                article.user = request.user
+                article.save()
+                return redirect('articles:index')
+        else:
+            form = ArticleForm(instance=article)
+        context = {
+            'form': form
+        }
+        return render (request, 'articles/form.html', context)
+    else:
+        messages.warning(request, "Editting other people's post is not allowed")
+        return redirect('articles:index')
 
 @login_required
 def like(request, article_id):

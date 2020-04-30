@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
-  <h2>CREATE</h2>
-  <hr>
+
+<div class="pb-3">
+{% if request.resolver_match.url_name == 'create'%}
+    <h3>Write a post</h3>
+{% else %}
+    <h3>Edit your post</h3>
+{% endif %}    
+
+</div>
+
   <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form%}
     <button class="btn btn-warning"><strong>Submit</strong></button>
   </form>
-  <hr>
-  <a href="{% url 'articles:index' %}">INDEX</a>
 {% endblock %}

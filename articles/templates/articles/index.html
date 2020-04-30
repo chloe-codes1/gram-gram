@@ -1,23 +1,46 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% load article_extras %}
+{% load mathfilters %}
 {% block content %}
-
-
- 
 
   {% for article in articles %}
   <div class="card m-auto " style="width: 40rem;">
   <div class="card-header d-flex justify-content-between"> 
-  <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
-  <div>
-    <span>{% include 'articles/like.html'%}</span>
-    <span>{{article.liked_users.count}} likes</span>
+    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
+    
+    {% if user.username == article.user.username %}
+    <div class="btn-group dropright">
+      <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class='fas fa-ellipsis-h text-secondary'></i>
+      </button>
+    <div class="dropdown-menu" >
+      <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
+      <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
+    </div>
+    </div>
+    {% endif %}
   </div>
-  </div>
+
+  {% include '_deletemodal.html'%}
+
 
   <div class="card-body">
     <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
+  <div>
+    <span>{% include 'articles/like.html'%}</span>
+    <span>{% include 'articles/comment.html'%}</span>
+  </div>
+    <p> 
+      {% if article.liked_users.count >= 2 %}
+        Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
+      {% elif article.liked_users.count == 1 %}
+        Liked by {{article.liked_users.first }}
+      {% else %}
+
+      {% endif %}
+
+    </p>
     <h5 class="card-title">#{{article.pk}} - {{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
     <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
