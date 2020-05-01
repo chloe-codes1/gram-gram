@@ -29,10 +29,10 @@
     </div>
 </div>
 
-<p class="my-2">
-{% if request.username == person.username %}
+<p class="mt-3 mb-5">
+{% if user.username == person.username %}
 
-    <a href="{% url 'follow' person.username %}" class="d-block w-50 m-auto btn btn-warning text-white">
+    <a href="{% url 'accounts:update' %}" class="d-block w-50 m-auto btn btn-warning text-white">
         <strong>Edit Profile</strong>
     </a>
 
@@ -50,7 +50,6 @@
     
 {% endif %}
 </p>
-    <h2>Posts</h2>
 
 {% for article in person.article_set.all%}
 <div class="card m-auto d-flex" style="width: 20rem;">

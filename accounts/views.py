@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, logout as auth_logout, get_user_model
-from .forms import CustomUserCreationForm
+from django.views.decorators.http import require_POST
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -58,3 +60,23 @@ def profile(request, username):
         'person': person,
     }
     return render(request, 'accounts/profile.html', context)
+
+
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('articles:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context ={
+        'form':form
+    }
+    return render(request, 'accounts/update.html', context)
+
+@require_POST
+@login_required
+def delete(request):
+    request.user.delete()
+    return redirect('articles:index')

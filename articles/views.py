@@ -37,6 +37,7 @@ def create(request):
 @require_POST
 def delete(request,pk):
     article = get_object_or_404(Article, id=pk)
+    print('밍?',pk )
     if request.user == article.user:
         article.delete()
     return redirect('articles:index')

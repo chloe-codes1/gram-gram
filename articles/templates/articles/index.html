@@ -10,9 +10,9 @@
 {% block content %}
 
   {% for article in articles %}
-  <div class="card m-auto " style="width: 40rem;">
-  <div class="card-header d-flex justify-content-between"> 
-    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
+  <div class="card m-auto rounded-0" style="width: 40rem;">
+  <div class="card-header d-flex justify-content-between bg-white"> 
+    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><strong>{{ article.user.username }}</strong></a> </h5>
     
     {% if user.username == article.user.username %}
     <div class="btn-group dropright">
@@ -29,8 +29,7 @@
 
   {% include '_deletemodal.html'%}
 
-
-  <div class="card-body">
+  <div class="card-body ">
     <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
   <div>
     <span>{% include 'articles/like.html'%}</span>

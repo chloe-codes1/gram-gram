@@ -3,7 +3,7 @@
 {% load article_extras %}
 {% load mathfilters %}
 {% block title%}
-    {{article.user.username}}
+    {{article.user.username}} on Gram-gram
 {% endblock %}
 
 {% block content %}
@@ -29,7 +29,7 @@
             {% endif %}
         </div>
         
-        <div style="height: 300px; overflow-y: auto">
+        <div class="border-left border-right border-bottom pl-2 pt-2"style="height: 300px; overflow-y: auto">
             <h5 class="card-title m-0">#{{article.pk}} - {{article.title}}</h5>
             <p>{{article|add_link|safe|linebreaksbr}}</p>
             {% for comment in article.comments.all %}
@@ -57,7 +57,7 @@
             {% endfor %}
         </div>
 
-        <div class="d-block w-100" >
+        <div class="d-block w-100 pt-2 pl-2" >
             <div >
                 <span>{% include 'articles/like.html'%}</span>
                 <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
