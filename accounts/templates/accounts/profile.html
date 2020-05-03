@@ -51,22 +51,13 @@
 {% endif %}
 </p>
 
-{% for article in person.article_set.all%}
-<div class="card m-auto d-flex" style="width: 20rem;">
-  <div class="card-header d-flex justify-content-between"> 
-  <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
-  <div>
-    <span>{% include 'articles/like.html'%}</span>
-    <span>{{article.liked_users.count}} likes</span>
-  </div>
-  </div>
 
-  <div class="card-body d-inline">
-    <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2" width="350"/>
-    <h5 class="card-title">{{article.title}}</h5>
-    <p>{{article|add_link|safe|linebreaksbr}}</p>
-    <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
-  </div>
+<div class="row">
+{% for article in person.article_set.all%}
+  <div class="col col-4 d-flex align-items-center">
+    <a href="{% url 'articles:comments' article.pk %}">
+        <img src="{{article.image_thumbnail.url}}" class="pb-2" width="350"/>
+    </a>
   </div>
 
   {% empty %}
@@ -75,4 +66,5 @@
   <a class="btn btn-warning text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
 
     {% endfor %}
+      </div>
 {% endblock %}
