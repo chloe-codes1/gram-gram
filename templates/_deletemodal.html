@@ -1,5 +1,5 @@
 <!-- Delete Modal!! -->
-<form action="{% url 'articles:delete' article.pk %}" method="POST">
+<form action="{% url 'articles:delete'%}" method="POST">
   {% csrf_token %}
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -13,7 +13,9 @@
       <h4 class="modal-title mb-3" id="exampleModalLabel">Are you sure?</h4>
         Do you really want to delete post? <br>
         This process cannot be undone.
+         <input type="text" id="post_id" name="post_id" hidden></input>
       </div>
+     
       <div class="modal-footer">
           <button type="submit" class="btn btn-danger text-white"> Delete</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -22,3 +24,11 @@
   </div>
 </div>
  </form>
+
+
+<script>
+$(document).on("click", "#delete_btn", function () {  
+  var id = $(this).attr('data-id');   
+  $("#post_id").val(id); 
+})  
+</script> 

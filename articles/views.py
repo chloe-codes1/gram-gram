@@ -36,7 +36,9 @@ def create(request):
 
 @login_required
 @require_POST
-def delete(request,pk):
+def delete(request):
+    pk = request.POST.get('post_id')
+    print('ㅣㅇ밍??', pk)
     article = get_object_or_404(Article, id=pk)
     print('밍?',pk )
     if request.user == article.user:

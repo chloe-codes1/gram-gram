@@ -20,7 +20,7 @@
       </button>
     <div class="dropdown-menu" >
       <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
-      <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
+      <button class="dropdown-item" id="delete_btn" href="#" data-id= "{{article.pk}}" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
     </div>
     </div>
     {% endif %}
