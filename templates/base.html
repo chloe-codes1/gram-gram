@@ -10,20 +10,49 @@
   <link rel="shortcut icon" href="../media/favicon/favicon.ico">
   <link rel="icon" type="image/x-icon" href="../../media/favicon/instagram-64.ico" />
 
-  <title>{%block title%}{% endblock %}</title>
+  <title>{%block title%}{% endblock %} Gram-gram</title>
     {% bootstrap_css %}
 </head>
 <body>
 
   {% include '_nav.html'%}
 
-  {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <div class="alert alert-{% if message.tags %}{% endif %}" role=alert>{{ message }}</li>
-        {% endfor %}
-    </div>
-  {% endif %}
+{% if messages %}
+
+<div style="height: 85px;"></div>
+
+<ul class="messages p-0">
+    {% for message in messages %}
+        {% if message.tags %} 
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+
+            <div class="alert alert-info ">
+
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success ">
+
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.PRIMARY %}
+            <div class="alert alert-primary ">
+
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div class="alert alert-warning ">
+
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.DANGER %}
+            <div class="alert alert-danger ">
+
+          {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{ message }}</strong>
+        </div>
+        {% endif %}
+    {% endfor %}
+</ul>
+
+{% else %}
+
+<div style="height: 120px;"></div>
+
+{% endif %} 
 
 
   <div class="container">

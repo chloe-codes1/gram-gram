@@ -14,6 +14,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            messages.add_message(request, messages.INFO, 'Welcome '+user.username)
             return redirect('articles:index')
     else:
         form = CustomUserCreationForm()
@@ -27,7 +28,8 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('articles:index')
+            messages.add_message(request, messages.INFO, 'Login Successfull!')
+            return redirect(request.GET.get('next') or 'articles:index')
     else:
         form = AuthenticationForm()
     context = {
@@ -38,6 +40,7 @@ def login(request):
 @login_required
 def logout(request):
     auth_logout(request)
+    messages.add_message(request, messages.WARNING, "You've been logged out.")
     return redirect('articles:index')
 
 @login_required
@@ -79,4 +82,5 @@ def update(request):
 @login_required
 def delete(request):
     request.user.delete()
+    messages.add_message(request, messages.DANGER, "Your account has been deleted.")
     return redirect('articles:index')

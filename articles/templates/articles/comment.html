@@ -8,13 +8,14 @@
 
 {% block content %}
 
-<div class="row" >
+
+<div class="row mt-4" >
     <div class="col-8">
         <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
     </div>
     <div class="col-4 border p-1">
         <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
-            <h5><a href="{% url 'profile' article.user.username %}" class="text-success"><strong>{{ article.user.username }}</strong></a> </h5>
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><strong>{{ article.user.username }}</strong></a> </h5>
     
             {% if user.username == article.user.username %}
             <div class="btn-group dropright">
@@ -30,7 +31,7 @@
         </div>
         
         <div class="border-left border-right border-bottom pl-2 pt-2"style="height: 300px; overflow-y: auto">
-            <h5 class="card-title m-0">#{{article.pk}} - {{article.title}}</h5>
+            <h5 class="card-title mt-0">{{article.title}}</h5>
             <p>{{article|add_link|safe|linebreaksbr}}</p>
             {% for comment in article.comments.all %}
                 <div class="d-flex justify-content-between m-0">

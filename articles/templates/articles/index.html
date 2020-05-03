@@ -4,7 +4,6 @@
 {% load mathfilters %}
 
 {% block title%}
-    {{article.user.username}}
 {% endblock %}
 
 {% block content %}
@@ -45,7 +44,7 @@
       {% endif %}
 
     </p>
-    <h5 class="card-title">#{{article.pk}} - {{article.title}}</h5>
+    <h5 class="card-title">{{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
     <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
   </div>

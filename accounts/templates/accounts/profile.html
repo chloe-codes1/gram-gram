@@ -3,7 +3,7 @@
 {% load article_extras%}
 
 {% block title%}
-    {{person.username}}
+    {{person.username}} |
 {% endblock %}
 
 
@@ -11,8 +11,6 @@
 
 <div class="d-flex justify-content-between">
     <h1>{{ person.username }}'s Profile</h1>
-    
-    
     <div class="d-flex">
         <div class="text-center d-inline px-2">
             <p class="text-center ">{{person.article_set.count}}</p>
@@ -31,11 +29,13 @@
 
 <p class="mt-3 mb-5">
 {% if user.username == person.username %}
-
-    <a href="{% url 'accounts:update' %}" class="d-block w-50 m-auto btn btn-warning text-white">
+    <span class="d-block w-100 m-auto text-center">
+    <a href="{% url 'accounts:update' %}" class="w-50 mr-1 btn btn-warning text-white">
         <strong>Edit Profile</strong>
     </a>
-
+    <button class="btn btn-secondary shadow-none" href="#" data-toggle="modal" data-target="#accountDeleteModal"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </span>
+    {% include '_accountdelete.html'%}
 {% else %}
     
         <a href="{% url 'follow' person.username %}" class="d-block w-50 m-auto btn btn-warning text-white"> 
@@ -63,7 +63,7 @@
 
   <div class="card-body d-inline">
     <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2" width="350"/>
-    <h5 class="card-title">#{{article.pk}} - {{article.title}}</h5>
+    <h5 class="card-title">{{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
     <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
   </div>

@@ -25,6 +25,7 @@ def create(request):
             article.user = request.user
             article.save()
             article.tag_save()
+            messages.add_message(request, messages.INFO, 'Your post has been successfully submitted!')
             return redirect('articles:index')
     else:
         form = ArticleForm()
@@ -40,6 +41,7 @@ def delete(request,pk):
     print('밍?',pk )
     if request.user == article.user:
         article.delete()
+        messages.add_message(request, messages.INFO, 'Your post has been successfully deleted!')
     return redirect('articles:index')
 
 @login_required                                                                                          
@@ -52,6 +54,7 @@ def update(request, pk):
                 article = form.save(commit=False)
                 article.user = request.user
                 article.save()
+                messages.add_message(request, messages.INFO, 'Your post has been successfully updated!')
                 return redirect('articles:index')
         else:
             form = ArticleForm(instance=article)
