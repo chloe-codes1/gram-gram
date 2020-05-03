@@ -4,9 +4,30 @@
 {% load mathfilters %}
 
 {% block title%}
+
+  {% if keyword %}
+    # {{keyword}} on 
+  {% endif %}
+
 {% endblock %}
 
 {% block content %}
+
+  {% if keyword %}
+
+    <p class="mt-1 text-center" style="font-size: 1.8rem">#{{keyword}}</p>
+    <p class="mb-5 text-center">{{count}}
+    
+      {% if count >= 2 %}
+        posts
+      {% elif count == 1 %}
+        post
+      {% else %}
+
+      {% endif %}
+    
+    </p>
+  {% endif %}
 
   {% for article in articles %}
   <div class="card m-auto rounded-0" style="width: 40rem;">

@@ -8,12 +8,15 @@ from .forms import ArticleForm, CommentForm
 
 def index(request, tag=None):
     articles = Article.objects.prefetch_related('tags').order_by('-pk')
-    
+    keyword = count = 0
     if tag:
         articles = Article.objects.filter(tags__name__iexact=tag)
-    
+        keyword = tag
+        count = Article.objects.filter(tags__name__iexact=tag).count()
     context = {
         'articles': articles,
+        'keyword': keyword,
+        'count': count,
     }
     return render(request, 'articles/index.html', context)
 
@@ -38,12 +41,10 @@ def create(request):
 @require_POST
 def delete(request):
     pk = request.POST.get('post_id')
-    print('ㅣㅇ밍??', pk)
     article = get_object_or_404(Article, id=pk)
-    print('밍?',pk )
     if request.user == article.user:
         article.delete()
-        messages.add_message(request, messages.INFO, 'Your post has been successfully deleted!')
+        messages.add_message(request, messages.SUCCESS, 'Your post has been successfully deleted!')
     return redirect('articles:index')
 
 @login_required                                                                                          
@@ -56,7 +57,7 @@ def update(request, pk):
                 article = form.save(commit=False)
                 article.user = request.user
                 article.save()
-                messages.add_message(request, messages.INFO, 'Your post has been successfully updated!')
+                messages.add_message(request, messages.SUCCESS, 'Your post has been successfully updated!')
                 return redirect('articles:index')
         else:
             form = ArticleForm(instance=article)
@@ -115,5 +116,16 @@ def comment_delete(request, article_id, comment_id):
             comment.delete()
         return redirect('articles:comments', article_id)
     else:
-        messages.warning(request, '댓글을 삭제할 권한이 없습니다')
+        messages.danger(request, 'You do not have permission to delete this comment.')
         return redirect('accounts:login')
+
+def search(request):
+    keyword = request.POST.get('keyword')
+    articles = Article.objects.filter(tags__name__iexact=keyword)
+    count = Article.objects.filter(tags__name__iexact=keyword).count()
+    context = {
+        'articles': articles,
+        'keyword': keyword,
+        'count': count,
+    }
+    return render(request, 'articles/index.html', context)
