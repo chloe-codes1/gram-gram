@@ -40,7 +40,7 @@ def login(request):
 @login_required
 def logout(request):
     auth_logout(request)
-    messages.add_message(request, messages.PRIMARY, "You've been logged out.")
+    messages.add_message(request, messages.SUCCESS, "You've been logged out.")
     return redirect('articles:index')
 
 @login_required

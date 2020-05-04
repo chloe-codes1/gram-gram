@@ -15,7 +15,7 @@
     </div>
     <div class="col-4 border p-1">
         <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
-            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><strong>{{ article.user.username }}</strong></a> </h5>
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img src="{{request.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/><strong>{{ article.user.username }}</strong></a> </h5>
     
             {% if user.username == article.user.username %}
             <div class="btn-group dropright">
@@ -35,7 +35,7 @@
             <p>{{article|add_link|safe|linebreaksbr}}</p>
             {% for comment in article.comments.all %}
                 <div class="d-flex justify-content-between m-0">
-                    <p class="mb-0 p-0"><strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
+                    <p class="mb-0 p-0"><img src="{{request.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
                     {% if comment.user.username == user.username %}
                     <div>
                         {% if user.username == article.user.username %}

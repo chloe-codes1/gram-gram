@@ -11,8 +11,12 @@
   <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
     <ul class="navbar-nav ml-auto mt-2 mt-md-0 p-2">
      {% if user.is_authenticated %}
+
+     <li><img src="{{request.user.gravatar_url}}" class="rounded-circle" height="50" width="50"/></li>
       <li class="nav-item dropdown mx-2">
-        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:22px;'>Hello, {{user.username}}!</a>
+        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:22px;'>
+          Hello, {{user.username}}!
+        </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'profile' user.username %}" >Profile</a></button>
           <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-danger">Log-out</a></button>
