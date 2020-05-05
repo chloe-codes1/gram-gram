@@ -22,7 +22,7 @@ class Article(models.Model):
     tags = models.ManyToManyField('Hashtag', blank=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-created_at',]
 
     def tag_save(self):
         tags = re.findall(r'#(\w+)\b', self.content)
@@ -35,9 +35,14 @@ class Article(models.Model):
             self.tags.add(tag)  
 
 class Comment(models.Model):
-    content = models.TextField()
+    content = models.CharField(max_length=200)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add =True)
+    parent = models.ForeignKey('self', related_name='replies', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['created_at',]
 
 
 class Hashtag(models.Model):

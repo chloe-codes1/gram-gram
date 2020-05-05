@@ -15,17 +15,17 @@
     </div>
     <div class="col-4 border p-1">
         <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
-            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img src="{{request.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/><strong>{{ article.user.username }}</strong></a> </h5>
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/><strong>{{ article.user.username }}</strong></a> </h5>
     
             {% if user.username == article.user.username %}
             <div class="btn-group dropright">
-            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class='fas fa-ellipsis-h text-secondary'></i>
-            </button>
-            <div class="dropdown-menu" >
-                <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
-                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
-            </div>
+                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class='fas fa-ellipsis-h text-secondary'></i>
+                </button>
+                <div class="dropdown-menu" >
+                    <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
+                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -35,43 +35,70 @@
             <p>{{article|add_link|safe|linebreaksbr}}</p>
             {% for comment in article.comments.all %}
                 <div class="d-flex justify-content-between m-0">
-                    <p class="mb-0 p-0"><img src="{{request.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
+                    <p class="mb-0 p-0 d-block"><img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
                     {% if comment.user.username == user.username %}
                     <div>
                         {% if user.username == article.user.username %}
                             <div class="btn-group dropright">
-                            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class='fas fa-ellipsis-h text-secondary'></i>
-                            </button>
-                            <div class="dropdown-menu" >
-                            <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
-                            </div>
+                                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class='fas fa-ellipsis-h text-secondary'></i>
+                                </button>
+                                <div class="dropdown-menu" >
+                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                                </div>
                             </div>
                         {% endif %}
                     </div>
                     {% endif %}
+                    <span class="btn text-secondary" id="reply_toggler">Reply</span>
                     {% include '_commentdelete.html'%}
-                </div>
-                </p>
+
+                    {% for reply in comment.replies.all %}
+                        <p class="mb-0 p-0"><img src="{{reply.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{reply.user}}</strong>:   {{ reply.content }}</p>
+                        {% if reply.user.username == user.username %}
+                        <div>
+                            {% if user.username == article.user.username %}
+                                <div class="btn-group dropright">
+                                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class='fas fa-ellipsis-h text-secondary'></i>
+                                </button>
+                                <div class="dropdown-menu" >
+                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                                </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <div id="reply_form" style="display:none">
+                            <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
+                                {% bootstrap_form form %}
+                                {% csrf_token %}
+                                <!-- Hidden input for parent comment.id -->
+                                <input type="hidden" name="parent_id" value="{{ comment.pk }}">
+                                <input class="btn btn-primary" type="submit" value="Reply">
+                            </form>
+                        </div>
                 {% empty %}
                 <p>There is no comment.</p>
             {% endfor %}
+            </div>
+            </div>
+            </div>
         </div>
-
         <div class="d-block w-100 pt-2 pl-2" >
             <div >
                 <span>{% include 'articles/like.html'%}</span>
                 <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
             </div>
             <p class="m-0"> 
-            {% if article.liked_users.count >= 2 %}
-                Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
-            {% elif article.liked_users.count == 1 %}
-                Liked by {{article.liked_users.first }}
-            {% else %}
+                {% if article.liked_users.count >= 2 %}
+                    Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
+                {% elif article.liked_users.count == 1 %}
+                    Liked by {{article.liked_users.first }}
+                {% else %}
 
-            {% endif %}
-
+                {% endif %}
             </p>
             <p class="mt-0"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
         </div>
@@ -85,4 +112,14 @@
 
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+  $("#reply_toggler").click(function(){
+    $("#reply_form").toggle();
+  });
+});
+
+</script>
+
 {% endblock %}

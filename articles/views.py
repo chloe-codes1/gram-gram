@@ -99,13 +99,26 @@ def comment_create(request, article_id):
         article =  get_object_or_404(Article, id=article_id)
         form = CommentForm(request.POST)
         if form.is_valid():
+            parent_obj = None
+            # 부모 댓글 가져오깅
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                # 부모 댓글 있으면,
+                if parent_obj:
+                    reply_comment = form.save(commit=False)
+                    reply_comment.parent = parent_obj
+
             comment = form.save(commit=False)
             comment.user = request.user
             comment.article = article
             comment.save()
         return redirect('articles:comments', article.pk)
     else:
-        messages.warning(request, '댓글을 작성할 권한이 없습니다')
+        messages.warning(request, 'Login first to write a comment!')
         return redirect('accounts:login')
 
 @require_POST
