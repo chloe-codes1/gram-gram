@@ -30,63 +30,81 @@
             {% endif %}
         </div>
         
-        <div class="border-left border-right border-bottom pl-2 pt-2"style="height: 300px; overflow-y: auto">
-            <h5 class="card-title mt-0">{{article.title}}</h5>
+        <div class="border-left border-right border-bottom pl-2 pt-2" style="height: 300px; overflow-y: auto">
+            <div > 
+                <img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/>
+                <h5 class="card-title mt-0 d-inline">{{article.title}}</h5>
+            </div>
             <p>{{article|add_link|safe|linebreaksbr}}</p>
             {% for comment in article.comments.all %}
-                <div class="d-flex justify-content-between m-0">
-                    <p class="mb-0 p-0 d-block"><img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{comment.user}}</strong>:   {{ comment.content }}</p>
-                    {% if comment.user.username == user.username %}
-                    <div>
-                        {% if user.username == article.user.username %}
-                            <div class="btn-group dropright">
+                <div class="m-0">
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0 p-0 d-block">
+                            <img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> 
+                            <strong>{{comment.user}}</strong>:   {{ comment.content }}
+                        </p>
+                        <div>
+                        {% if comment.user.username == user.username %}
+                            <div class="btn-group dropdown">
                                 <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class='fas fa-ellipsis-h text-secondary'></i>
                                 </button>
                                 <div class="dropdown-menu" >
-                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
                                 </div>
                             </div>
                         {% endif %}
+                        </div>
                     </div>
-                    {% endif %}
-                    <span class="btn text-secondary" id="reply_toggler">Reply</span>
+                    <div class="ml-4 pl-2">
+                        <span class="text-secondary" style="font-size: 0.8rem">{{comment.created_at|date:'Y-m-d H:i'}}</span> 
+                        <span class="btn text-secondary" id="reply_toggler" style="font-size: 0.8rem"><strong>Reply</strong></span>
+                    </div>
                     {% include '_commentdelete.html'%}
 
-                    {% for reply in comment.replies.all %}
-                        <p class="mb-0 p-0"><img src="{{reply.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> <strong>{{reply.user}}</strong>:   {{ reply.content }}</p>
-                        {% if reply.user.username == user.username %}
-                        <div>
-                            {% if user.username == article.user.username %}
-                                <div class="btn-group dropright">
-                                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class='fas fa-ellipsis-h text-secondary'></i>
-                                </button>
-                                <div class="dropdown-menu" >
-                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                    {% if comment.replies.count > 0 %}
+                        <p class="view_replies text-secondary ml-4 pl-2" style="font-size: 0.8rem">----- View replies ({{comment.replies.count}}) </p>
+
+                        <div class="replies mb-2" style="display:none">
+                            {% for reply in comment.replies.all %}
+                                <div class="d-flex justify-content-between pl-4">
+                                    <p class="mb-3 p-0 d-block">
+                                        <img src="{{reply.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> 
+                                        <strong>{{reply.user}}</strong>:   {{ reply.content }}
+                                    </p>
+                                    <div>
+                                    {% if reply.user.username == user.username %}
+                                        <div class="btn-group dropdown">
+                                            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class='fas fa-ellipsis-h text-secondary'></i>
+                                            </button>
+                                            <div class="dropdown-menu" >
+                                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    </div>
                                 </div>
-                                </div>
-                            {% endif %}
+                            {% endfor %}
                         </div>
-                        {% endif %}
-                        {% endfor %}
+                    {% endif %}
+
                         <div id="reply_form" style="display:none">
                             <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
                                 {% bootstrap_form form %}
                                 {% csrf_token %}
-                                <!-- Hidden input for parent comment.id -->
                                 <input type="hidden" name="parent_id" value="{{ comment.pk }}">
-                                <input class="btn btn-primary" type="submit" value="Reply">
+                                <input class="btn btn-primary" type="submit" value="Reply" style="height: 47px;">
                             </form>
                         </div>
                 {% empty %}
                 <p>There is no comment.</p>
+                </div>
             {% endfor %}
             </div>
-            </div>
-            </div>
         </div>
-        <div class="d-block w-100 pt-2 pl-2" >
+        </div>
+        <div class="d-block w-100 pt-2 pl-2 " >
             <div >
                 <span>{% include 'articles/like.html'%}</span>
                 <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
@@ -101,16 +119,18 @@
                 {% endif %}
             </p>
             <p class="mt-0"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
-        </div>
-        <div>
-            <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
-                {% csrf_token %}
-                {% bootstrap_form form%}
-                <button class="btn btn-warning py-0" style="height: 47px;"><strong>Post</strong></button>
-            </form>
+            <div>
+                <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
+                    {% csrf_token %}
+                    {% bootstrap_form form%}
+                    <button class="btn btn-warning py-0" style="height: 47px;"><strong>Post</strong></button>
+                </form>
+            </div>
         </div>
 
-    </div>
+
+
+</div>
 </div>
 
 <script>
@@ -118,8 +138,11 @@ $(document).ready(function(){
   $("#reply_toggler").click(function(){
     $("#reply_form").toggle();
   });
-});
 
+  $(".view_replies").click(function () {
+    $(this).parent().children('.replies').toggle();
+  });
+});
 </script>
 
 {% endblock %}
