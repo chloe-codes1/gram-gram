@@ -1,0 +1,29 @@
+<p class="view_replies text-secondary ml-4 pl-2" style="font-size: 0.8rem" reply-count = "{{comment.replies.count}}">
+    ----- View replies
+    ({{comment.replies.count}}) 
+</p>
+
+<div class="replies mb-2" style="display:none">
+    {% for reply in comment.replies.all %}
+    <div class="d-flex justify-content-between pl-4">
+        <p class="mb-3 p-0 d-block">
+            <img src="{{reply.user.gravatar_url}}" class="rounded-circle" height="40" width="40" />
+            <strong>{{reply.user}}</strong>: {{ reply.content }}
+        </p>
+        <div>
+            {% if reply.user.username == user.username %}
+            <div class="btn-group dropdown">
+                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class='fas fa-ellipsis-h text-secondary'></i>
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" href="#" data-toggle="modal"
+                        data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

@@ -11,7 +11,7 @@
 
 <div class="d-flex justify-content-between align-items-center">
     <div>
-        <img src="{{request.user.gravatar_url}}" class="rounded-circle"/>
+        <img src="{{person.gravatar_url}}" class="rounded-circle"/>
         <p class="d-inline ml-4" style="font-size: 2rem">{{ person.username }}</p>
     </div>
     <div class="d-flex">
@@ -64,10 +64,11 @@
   </div>
 
   {% empty %}
-  <h3 class="text-center pt-5 mb-3">There is no post!</h3>
-  <p class="text-center pb-2">Upload your first gram-gram photo today.</p>
-  <a class="btn btn-warning text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
-
+  <div class = "w-100 text-center my-5">
+    <h4>There is no post!</h4>
+    <p>Upload your first gram-gram photo today.</p>
+    <a class="btn btn-info text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
+  </div>
     {% endfor %}
       </div>
 {% endblock %}

@@ -25,21 +25,16 @@
     {% for message in messages %}
         {% if message.tags %} 
           {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-
             <div class="alert alert-info ">
-
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
             <div class="alert alert-success ">
-
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.PRIMARY %}
             <div class="alert alert-primary ">
-
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
             <div class="alert alert-warning ">
 
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.DANGER %}
             <div class="alert alert-danger ">
-
           {% endif %}
         <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>{{ message }}</strong>
@@ -61,10 +56,10 @@
   {% endblock %}
   </div>
 
-<footer>
-<div class="footer-copyright text-center my-4 py-3 ">© 2020 Copyright:
-    <a href="https://github.com/chloe-codes1" class="text-decoration-none"> <i class="fab fa-github ml-1"></i> chloe-codes1</a>
-  </div>
+<footer class="footer">
+    <div class="footer-copyright text-center my-4 py-3 col-12">© 2020 Copyright:
+      <a href="https://github.com/chloe-codes1" class="text-decoration-none"> <i class="fab fa-github ml-1"></i> chloe-codes1</a>
+    </div>
 </footer>
 
 

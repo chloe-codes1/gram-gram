@@ -48,9 +48,9 @@ def follow(request, username):
     person = get_object_or_404(User, username=username)
     user = request.user
     # ver1)
-    # if user in person.followers.all():
+    if user in person.followers.all():
     # ver2)
-    if person.followers.filter(username=username).exists():
+    # if person.followers.filter(username=username).exists():
         person.followers.remove(user)
     else:
         person.followers.add(user)

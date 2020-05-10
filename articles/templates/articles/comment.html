@@ -3,146 +3,132 @@
 {% load article_extras %}
 {% load mathfilters %}
 {% block title%}
-    {{article.user.username}} on Gram-gram
+{{article.user.username}} on Gram-gram
 {% endblock %}
 
 {% block content %}
 
 
-<div class="row mt-4" >
-    <div class="col-8">
-        <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
+<div class="row mt-4" style="height:700px">
+    <div class="col-8 d-flex align-items-center">
+        <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2" />
     </div>
-    <div class="col-4 border p-1">
+    <div class="col border p-1 position-relative">
         <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
-            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/><strong>{{ article.user.username }}</strong></a> </h5>
-    
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img
+                        src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40"
+                        width="40" /><strong>{{ article.user.username }}</strong></a> </h5>
+
             {% if user.username == article.user.username %}
             <div class="btn-group dropright">
-                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                     <i class='fas fa-ellipsis-h text-secondary'></i>
                 </button>
-                <div class="dropdown-menu" >
+                <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
-                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><strong>Delete</strong></button>
+                    <button class="dropdown-item" href="#" data-toggle="modal"
+                        data-target="#deleteModal"><strong>Delete</strong></button>
                 </div>
             </div>
             {% endif %}
         </div>
-        
-        <div class="border-left border-right border-bottom pl-2 pt-2" style="height: 300px; overflow-y: auto">
-            <div > 
-                <img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40"/>
+        {% include '_deletemodal.html'%}
+        <div class="border-left border-right border-bottom pl-2 pt-2" style="height: 450px; overflow-y: auto">
+            <div class="mb-2 mt-1">
+                <img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40" />
                 <h5 class="card-title mt-0 d-inline">{{article.title}}</h5>
             </div>
             <p>{{article|add_link|safe|linebreaksbr}}</p>
+
             {% for comment in article.comments.all %}
-                <div class="m-0">
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-0 p-0 d-block">
-                            <img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> 
-                            <strong>{{comment.user}}</strong>:   {{ comment.content }}
-                        </p>
-                        <div>
+            {% if comment.parent == null %}
+            <div class="m-0 d-block">
+                <div class="d-flex justify-content-between">
+                    <p class="mb-0 p-0 d-block">
+                        <img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40" />
+                        <strong>{{comment.user}}</strong>: {{ comment.content }}
+                    </p>
+                    <div>
                         {% if comment.user.username == user.username %}
-                            <div class="btn-group dropdown">
-                                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class='fas fa-ellipsis-h text-secondary'></i>
-                                </button>
-                                <div class="dropdown-menu" >
-                                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
-                                </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class='fas fa-ellipsis-h text-secondary'></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#commentdeleteModal"><strong>Delete</strong></button>
                             </div>
+                        </div>
                         {% endif %}
-                        </div>
                     </div>
-                    <div class="ml-4 pl-2">
-                        <span class="text-secondary" style="font-size: 0.8rem">{{comment.created_at|date:'Y-m-d H:i'}}</span> 
-                        <span class="btn text-secondary" id="reply_toggler" style="font-size: 0.8rem"><strong>Reply</strong></span>
-                    </div>
-                    {% include '_commentdelete.html'%}
-
-                    {% if comment.replies.count > 0 %}
-                        <p class="view_replies text-secondary ml-4 pl-2" style="font-size: 0.8rem">----- View replies ({{comment.replies.count}}) </p>
-
-                        <div class="replies mb-2" style="display:none">
-                            {% for reply in comment.replies.all %}
-                                <div class="d-flex justify-content-between pl-4">
-                                    <p class="mb-3 p-0 d-block">
-                                        <img src="{{reply.user.gravatar_url}}" class="rounded-circle" height="40" width="40"/> 
-                                        <strong>{{reply.user}}</strong>:   {{ reply.content }}
-                                    </p>
-                                    <div>
-                                    {% if reply.user.username == user.username %}
-                                        <div class="btn-group dropdown">
-                                            <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class='fas fa-ellipsis-h text-secondary'></i>
-                                            </button>
-                                            <div class="dropdown-menu" >
-                                                <button class="dropdown-item" href="#" data-toggle="modal" data-target="#commentdeleteModal"><strong>Delete</strong></button>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                        <div id="reply_form" style="display:none">
-                            <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
-                                {% bootstrap_form form %}
-                                {% csrf_token %}
-                                <input type="hidden" name="parent_id" value="{{ comment.pk }}">
-                                <input class="btn btn-primary" type="submit" value="Reply" style="height: 47px;">
-                            </form>
-                        </div>
-                {% empty %}
-                <p>There is no comment.</p>
                 </div>
+                <div class="d-block ml-4 pl-2">
+                    <span class="text-secondary"
+                        style="font-size: 0.8rem">{{comment.created_at|date:'Y-m-d H:i'}}</span>
+                    <span class="btn text-secondary reply_toggler"
+                        style="font-size: 0.8rem"><strong>Reply</strong></span>
+                </div>
+                {% include '_commentdelete.html'%}
+
+                {% if comment.replies.count > 0 %}
+                    {% include '_replies.html'%}
+                {% endif %}
+                <div class="reply_form" style="display:none">
+                    <form action="{% url 'articles:comment_create' article.pk %}" method="POST"
+                        enctype="multipart/form-data" class="d-flex">
+                        {% bootstrap_form form %}
+                        {% csrf_token %}
+                        <input type="hidden" name="parent_id" value="{{ comment.pk }}">
+                        <input class="btn btn-primary" type="submit" value="Reply" style="height: 47px;">
+                    </form>
+                </div>
+            </div>
+            {% endif %}
             {% endfor %}
-            </div>
         </div>
-        </div>
-        <div class="d-block w-100 pt-2 pl-2 " >
-            <div >
+        <div class="d-block w-100 pt-2 pl-2 position-absolute fixed-bottom fixed-right">
+            <div class="d-block">
                 <span>{% include 'articles/like.html'%}</span>
-                <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
+                <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary"
+                            style='font-size:27px'></i></a></span>
             </div>
-            <p class="m-0"> 
+            <p class="m-0">
                 {% if article.liked_users.count >= 2 %}
-                    Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
+                Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
                 {% elif article.liked_users.count == 1 %}
-                    Liked by {{article.liked_users.first }}
+                Liked by {{article.liked_users.first }}
                 {% else %}
 
                 {% endif %}
             </p>
             <p class="mt-0"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
             <div>
-                <form action="{% url 'articles:comment_create' article.pk %}" method="POST" enctype="multipart/form-data" class="d-flex">
+                <form action="{% url 'articles:comment_create' article.pk %}" method="POST"
+                    enctype="multipart/form-data" class="d-flex">
                     {% csrf_token %}
                     {% bootstrap_form form%}
                     <button class="btn btn-warning py-0" style="height: 47px;"><strong>Post</strong></button>
                 </form>
             </div>
         </div>
-
-
-
-</div>
+    </div>
 </div>
 
 <script>
-$(document).ready(function(){
-  $("#reply_toggler").click(function(){
-    $("#reply_form").toggle();
-  });
+    $(document).ready(function () {
+        $(".reply_toggler").click(function () {
+            $(this).parent().parent().children(".reply_form").toggle();
+        });
 
-  $(".view_replies").click(function () {
-    $(this).parent().children('.replies').toggle();
-  });
-});
+        $(".view_replies").click(function () {
+            var count = $(this).attr('reply-count')
+            console.log(count)
+            $(this).parent().children('.replies').toggle();
+            $(this).text($(this).text() == '----- Hide replies' ? '----- View replies (' + count + ')'  : '----- Hide replies');
+        });
+    });
 </script>
 
 {% endblock %}

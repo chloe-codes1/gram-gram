@@ -31,9 +31,20 @@
 
   {% for article in articles %}
   <div class="card m-auto rounded-0" style="width: 40rem;">
-  <div class="card-header d-flex justify-content-between bg-white"> 
-    <h5 class="card-title"><a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="50" width="50"/><strong>{{ article.user.username }}</strong></a> </h5>
+  <div class="card-header d-flex justify-content-between bg-white pb-1"> 
+    <h5 class="card-title">
+      <a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="50" width="50"/>
+        <strong>{{ article.user.username }}</strong>
+      </a> 
+       <a href="{% url 'follow' article.user.username %}" class="text-primary ml-3" style="font-size: 0.9rem"> 
+            {% if request.user not in article.user.followers.all and request.user != article.user%}
+                Follow
+            {% endif %}
+        </a>      
+
+    </h5>
     
+
     {% if user.username == article.user.username %}
     <div class="btn-group dropright">
       <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
