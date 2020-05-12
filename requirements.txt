@@ -17,6 +17,12 @@ django-bootstrap4==1.1.1
 django-debug-toolbar==2.2
 django-environ==0.4.5
 django-extensions==2.2.9
+django-imagekit==4.0.2
+django-jquery==3.1.0
+django-mathfilters==1.0.0
+djangorestframework==3.11.0
+drf-serializer-cache==0.3.3
+drf-yasg==1.17.1
 entrypoints==0.3
 Flask==1.1.1
 gunicorn==20.0.4
