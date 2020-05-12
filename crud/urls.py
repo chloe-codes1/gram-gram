@@ -20,13 +20,16 @@ from articles import views as articles_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = [
-    path('', articles_views.index, name='root'),
-    path('admin/', admin.site.urls),
-    path('articles/', include('articles.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('<str:username>/follow/', accounts_views.follow, name='follow'),
-    path('<str:username>/', accounts_views.profile, name='profile'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+        path('', articles_views.index, name='root'),
+        path('admin/', admin.site.urls),
+        path('articles/', include('articles.urls')),
+        path('accounts/', include('accounts.urls')),
+        path('<str:username>/follow/', accounts_views.follow, name='follow'),
+        path('<str:username>/', accounts_views.profile, name='profile'),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #string을 밑에 놓는 이유는 문자열이라서 위에 다른 url로 빠지지 않고 다 string url로 빠지게 됨
