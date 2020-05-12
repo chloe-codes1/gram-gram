@@ -10,3 +10,9 @@ deploy.json
 fabfile.py
 *.swp
 *.swo
+
+*.log 
+*.pot  
+local_settings.py 
+media
+
