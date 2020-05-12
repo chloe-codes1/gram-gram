@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -143,3 +144,8 @@ MEDIA_URL = '/media/'
 
 # 내가 정의한 User 쓸꺼얌
 AUTH_USER_MODEL = 'accounts.User'
+
+# Heroku: Update database configuration from $DATABASE_URL. 
+import dj_database_url 
+db_from_env = dj_database_url.config(conn_max_age=500) 
+DATABASES['default'].update(db_from_env)
