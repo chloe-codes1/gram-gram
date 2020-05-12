@@ -3,18 +3,10 @@ asn1crypto==0.24.0
 backcall==0.1.0
 bcrypt==3.1.7
 beautifulsoup4==4.9.0
-Brlapi==0.6.6
-caffeine==2.9.4
 certifi==2018.1.18
 cffi==1.14.0
 chardet==3.0.4
-chrome-gnome-shell==0.0.0
 Click==7.0
-command-not-found==0.3
-coreapi==2.3.3
-coreschema==0.0.4
-cryptography==2.9
-cupshelpers==1.0
 decorator==4.4.2
 defer==1.0.6
 distro-info===0.18ubuntu0.18.04.1
@@ -22,7 +14,7 @@ dj-database-url==0.5.0
 Django==2.1.15
 django-appconf==1.0.4
 django-bootstrap4==1.1.1
--e git+https://github.com/jazzband/django-debug-toolbar.git@a8ffb635ceaea9cb52e75dab090d04a122e01c4a#egg=django_debug_toolbar
+django-debug-toolbar==2.2
 django-extensions==2.2.9
 django-imagekit==4.0.2
 django-jquery==3.1.0
