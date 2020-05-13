@@ -14,5 +14,4 @@ fabfile.py
 *.log 
 *.pot  
 local_settings.py 
-media
 
