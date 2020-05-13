@@ -140,7 +140,7 @@ STATICFILES_DIRS = [
 # media file 저장 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'crud/media')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'crud/media/'
 
 # 내가 정의한 User 쓸꺼얌
 AUTH_USER_MODEL = 'accounts.User'
