@@ -7,10 +7,10 @@ db.sqlite3
 /static
 .DS_Store
 deploy.json
+data.json
 fabfile.py
 *.swp
 *.swo
-
 *.log 
 *.pot  
 local_settings.py 
