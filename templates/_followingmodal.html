@@ -1,0 +1,34 @@
+<!-- followingModal -->
+<div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title m-auto pl-4"  id="exampleModalLongTitle">Following</h5>
+          <button type="button" class="close mx-0 px-1 " data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% for following in person.followings.all %}
+           <div class="d-flex justify-content-between">
+            <p class="ml-1" style="font-size: 1.1rem">
+              <a href="{% url 'profile' following.username %}" class="text-decoration-none text-reset">
+                <img src="{{following.gravatar_url}}" class="rounded-circle mr-1" height="30" width="30" /> {{ following.username }}</p>
+              </a>
+            <p>
+                <a href="{% url 'follow' following.username %}" class="d-block m-auto btn btn-warning text-white"> 
+                    <strong>
+                    {% if following in person.followings.all %}
+                        Following
+                    {% else %}
+                        Follow
+                    {% endif %}
+                    </strong>
+                </a>
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
