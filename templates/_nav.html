@@ -18,7 +18,7 @@
           Hello, {{user.username}}!
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'profile' user.username %}" >Profile</a></button>
+          <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'profile' user.username %}" class="text-decoration-none">Profile</a></button>
           <button class="dropdown-item"  style='font-size:22px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-danger">Log-out</a></button>
         </div>
       </li> 
