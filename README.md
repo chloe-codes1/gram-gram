@@ -8,18 +8,31 @@
 
 ## Features
 
-- Post CRUD
+<br>
+
+- #### Post CRUD
+  
   - Image upload
-- Comment 
+  
+- #### Comment 
+  
   - Reply on comment
-- Follow
+  
+- #### Follow
+  
   - Follower/Following List
-- Post likes
-- Authentication
-- Hash tags
+  
+- #### Post likes
+
+- #### Authentication
+
+- #### Hash tags
+  
   - Sort posts by hash tag
   - Search by hash tag
-- Profile
+  
+- #### Profile
+  
   - Profile photo by using [gravatar](https://en.gravatar.com/)
 
 <br>

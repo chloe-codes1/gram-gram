@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 
+
 def index(request, tag=None):
     articles = Article.objects.prefetch_related('tags').order_by('-pk')
     keyword = count = 0

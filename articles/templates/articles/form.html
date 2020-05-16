@@ -19,6 +19,7 @@
   <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form%}
-    <button class="btn btn-warning"><strong>Submit</strong></button>
+    <button class="btn btn-warning" id="post_create_update_btn"><strong>Submit</strong></button>
   </form>
+
 {% endblock %}

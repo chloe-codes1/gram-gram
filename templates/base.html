@@ -9,17 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   <link rel="shortcut icon" href="../media/favicon/instagram-64.ico">
   <link rel="icon" type="image/x-icon" href="../media/favicon/instagram-64.ico" />
-<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-  <title>{%block title%}{% endblock %} Gram-gram</title>
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<title>{%block title%}{% endblock %} Gram-gram</title>
     {% bootstrap_css %}
 </head>
 <body>
 
   {% include '_nav.html'%}
-
 {% if messages %}
-
-<div style="height: 85px;"></div>
 
 <ul class="messages p-0">
     {% for message in messages %}
@@ -44,13 +41,10 @@
 </ul>
 
 {% else %}
-
-<div style="height: 120px;"></div>
-
 {% endif %} 
 
 
-  <div class="container">
+  <div class="container mt-5">
   {% block content %}
   
   {% endblock %}
@@ -62,7 +56,8 @@
     </div>
 </footer>
 
+{% bootstrap_javascript jquery='full'%}
 
-  {% bootstrap_javascript jquery='full'%}  
+
 </body>
 </html>
