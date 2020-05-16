@@ -158,6 +158,7 @@ STATICFILES_STORAGE = 'crud.storages.StaticStorage'
 MEDIAFILES_LOCATION = 'media'
 STATICFILES_LOCATION = 'static'
 
+
 AWS_S3_REGION_NAME = "ap-northeast-2"
 
 AWS_S3_SIGNATURE_VERSION = "s3v4"
