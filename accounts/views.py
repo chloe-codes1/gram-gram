@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, logout as auth_logout, get_user_model
 from django.views.decorators.http import require_POST
+from django.http import HttpResponseRedirect
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib import messages
 
@@ -54,7 +55,7 @@ def follow(request, username):
         person.followers.remove(user)
     else:
         person.followers.add(user)
-    return redirect('profile', person.username)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def profile(request, username):
     #해당 유저 (username)의 정보를 보여줌

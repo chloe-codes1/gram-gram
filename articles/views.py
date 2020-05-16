@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST 
-    
+from django.http import HttpResponseRedirect
+
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 
@@ -83,7 +84,7 @@ def like(request, article_id):
         article.liked_users.remove(user) #id 넣어도 되지만 django는 똑똑해서 객체 자체를 넣어줘도 됨
     else:
         article.liked_users.add(user)
-    return redirect('articles:index')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def comments(request, article_id):
     article = get_object_or_404(Article, id=article_id)
