@@ -43,25 +43,37 @@
 
 <br>
 
-> Index page -1
+> Index -1
 
 ![](./README-images/gram-gram_index_01.png)
 
 <br>
 
-> Index page -2
+> Index -2
 
 ![](./README-images/gram-gram_index_02.png)
 
 <br>
 
-> Profile page
+> Profile
 
 ![](./README-images/gram-gram_profile_01.png)
 
 <br>
 
-> Detail page
+> Followers
+
+![](./README-images/gram-gram_follower_01.png)
+
+<br>
+
+> Following
+
+![](./README-images/gram-gram_following_01.png)
+
+<br>
+
+> Post detail - comments & replies
 
 ![](./README-images/gram-gram_comment_01.png)
 
