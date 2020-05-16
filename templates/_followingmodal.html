@@ -16,15 +16,17 @@
                 <img src="{{following.gravatar_url}}" class="rounded-circle mr-1" height="30" width="30" /> {{ following.username }}</p>
               </a>
             <p>
+              {% if request.user != following %}
                 <a href="{% url 'follow' following.username %}" class="d-block m-auto btn btn-warning text-white"> 
                     <strong>
-                    {% if following in person.followings.all %}
+                    {% if request.user in following.followers.all %}
                         Following
                     {% else %}
                         Follow
                     {% endif %}
                     </strong>
                 </a>
+              {% endif %}
             </p>
           </div>
           {% endfor %}

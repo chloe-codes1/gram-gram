@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'articles',
     'accounts',
 ]
@@ -148,6 +149,23 @@ MEDIA_URL = '/media/'
 
 # 내가 정의한 User 쓸꺼얌
 AUTH_USER_MODEL = 'accounts.User'
+
+IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
+
+DEFAULT_FILE_STORAGE = 'crud.storages.MediaStorage'
+STATICFILES_STORAGE = 'crud.storages.StaticStorage'
+
+MEDIAFILES_LOCATION = 'media'
+STATICFILES_LOCATION = 'static'
+
+AWS_ACCESS_KEY_ID = 'AKIAYV4YVUECR23I4RMO'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'gram-gram'
+
+AWS_S3_REGION_NAME = "ap-northeast-2"
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+
 
 # Heroku: Update database configuration from $DATABASE_URL. 
 import dj_database_url 
