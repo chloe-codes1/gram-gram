@@ -36,8 +36,11 @@
         {% include '_deletemodal.html'%}
         <div class="border-left border-right border-bottom pl-2 pt-2" style="height: 450px; overflow-y: auto">
             <div class="mb-2 mt-1">
+                <a href="{% url 'profile' article.user.username %}" class="text-dark">
                 <img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40" />
-                <h5 class="card-title mt-0 d-inline">{{article.title}}</h5>
+                <h5 class="d-inline">{{article.user}}</h5>
+            </a>
+                <h5 class="card-title mt-2">{{article.title}}</h5>
             </div>
             <p>{{article|add_link|safe|linebreaksbr}}</p>
 
@@ -46,8 +49,11 @@
             <div class="m-0 d-block">
                 <div class="d-flex justify-content-between">
                     <p class="mb-0 p-0 d-block">
+                        <a href="{% url 'profile' comment.user.username %}" class="text-dark">
                         <img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40" />
-                        <strong>{{comment.user}}</strong>: {{ comment.content }}
+                        <strong>{{comment.user}}</strong>
+                        </a>
+                        : {{ comment.content }}
                     </p>
                     <div>
                         {% if comment.user.username == user.username %}
@@ -71,6 +77,7 @@
                         style="font-size: 0.8rem"><strong>Reply</strong></span>
                 </div>
                 {% include '_commentdelete.html'%}
+                
 
                 {% if comment.replies.count > 0 %}
                     {% include '_replies.html'%}
@@ -94,7 +101,7 @@
                 <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary"
                             style='font-size:27px'></i></a></span>
             </div>
-            <p class="m-0">
+            <p class="m-0" data-toggle="modal" data-target="#likesModal">
                 {% if article.liked_users.count >= 2 %}
                 Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
                 {% elif article.liked_users.count == 1 %}
@@ -115,6 +122,8 @@
         </div>
     </div>
 </div>
+
+{% include '_likesmodal.html' %}
 
 <script>
     $(document).ready(function () {

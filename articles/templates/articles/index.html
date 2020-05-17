@@ -66,7 +66,7 @@
     <span>{% include 'articles/like.html'%}</span>
     <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
   </div>
-    <p> 
+    <p data-toggle="modal" data-target="#likesModal"> 
       {% if article.liked_users.count >= 2 %}
         Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
       {% elif article.liked_users.count == 1 %}
@@ -81,6 +81,8 @@
     <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
   </div>
   </div>
+
+  {% include '_likesmodal.html' %}
 
   {% empty %}
   <h3 class="text-center pt-5 mb-3">There is no post!</h3>

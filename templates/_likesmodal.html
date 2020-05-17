@@ -1,0 +1,36 @@
+<!-- followersModal -->
+<div class="modal fade" id="likesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title m-auto pl-4"  id="exampleModalLongTitle">Likes</h5>
+          <button type="button" class="close mx-0 px-1 " data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% for liker in article.liked_users.all %}
+           <div class="d-flex justify-content-between">
+            <p class="ml-1" style="font-size: 1.1rem">
+              <a href="{% url 'profile' liker.username %}" class="text-decoration-none text-reset">
+                <img src="{{liker.gravatar_url}}" class="rounded-circle mr-1" height="30" width="30" /> {{ liker.username }}</p>
+              </a>
+            <p>
+              {% if request.user != liker %}
+                <a href="{% url 'follow' liker.username %}" class="d-block m-auto btn btn-warning text-white"> 
+                    <strong>
+                    {% if request.user in liker.followers.all %}
+                        Following
+                    {% else %}
+                        Follow
+                    {% endif %}
+                    </strong>
+                </a>
+              {% endif %}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
