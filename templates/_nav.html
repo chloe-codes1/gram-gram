@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-md navbar-light bg-white border border-left-0 border-right-0 border-top-0 border-secondary sticky-top py-1" >
+<nav class="navbar navbar-expand-xl navbar-light bg-white border border-left-0 border-right-0 border-top-0 border-secondary sticky-top py-1" >
   <a class="navbar-brand" href="{% url 'root' %}"><strong class="text-dark">Gram-gram</strong></a>
   <form class="ml-5 pl-5" action="{% url 'articles:search' %}" method="POST" style="width: 400px">
   {% csrf_token %}

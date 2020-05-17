@@ -10,11 +10,8 @@
   {% endif %}
 
 {% endblock %}
-
 {% block content %}
-
   {% if keyword %}
-
     <p class="mt-1 text-center" style="font-size: 1.8rem">#{{keyword}}</p>
     <p class="mb-5 text-center">{{count}}
     
@@ -60,7 +57,7 @@
 
   {% include '_deletemodal.html'%}
 
-  <div class="card-body" >
+  <div class="card-body col-12">
     <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
   <div>
     <span>{% include 'articles/like.html'%}</span>
