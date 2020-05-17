@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django_extensions',
-    'debug_toolbar',
     'bootstrap4',
     'mathfilters',
     'django.contrib.admin',
@@ -49,7 +48,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -109,10 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

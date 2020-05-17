@@ -4,7 +4,6 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 import re
 
-from .storage import CustomS3Boto3Storage
 class Article(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
