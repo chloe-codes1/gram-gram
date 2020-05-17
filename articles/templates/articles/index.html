@@ -78,7 +78,41 @@
     </p>
     <h5 class="card-title">{{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
-    <p><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
+
+    {% if article.comments.count > 0 %}
+    <a href="{% url 'articles:comments' article.pk %}" class="text-decoration-none text-secondary">
+        <p class="mb-1"> View all {{article.comments.count}} comments</p>
+    </a>
+
+      {% for comment in article.comments.all|slice:":2" %}
+      {% if comment.parent == null %}
+      <div class="d-flex justify-content-between ">
+        <p class="mb-0 p-0 d-block">
+            <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
+            <strong>{{comment.user}}</strong>
+            </a>
+            : {{ comment.content }}
+        </p>
+        <div>
+            {% if comment.user.username == user.username %}
+            <div class="btn-group dropdown">
+                <button class="btn shadow-none py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class='fas fa-ellipsis-h text-secondary'></i>
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" href="#" data-toggle="modal"
+                        data-target="#commentdeleteModal"><strong>Delete</strong></button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+      {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <p class="text-secondary"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
   </div>
   </div>
 

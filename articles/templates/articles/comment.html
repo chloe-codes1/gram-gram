@@ -15,7 +15,7 @@
     </div>
     <div class="col border p-1 position-relative">
         <div class="border-bottom d-flex justify-content-between pl-1 pt-1">
-            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark"><img
+            <h5><a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><img
                         src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40"
                         width="40" /><strong>{{ article.user.username }}</strong></a> </h5>
 
@@ -26,7 +26,7 @@
                     <i class='fas fa-ellipsis-h text-secondary'></i>
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
+                    <a class="dropdown-item text-decoration-none" href="{% url 'articles:update' article.pk %}"><strong>Edit</strong></a>
                     <button class="dropdown-item" href="#" data-toggle="modal"
                         data-target="#deleteModal"><strong>Delete</strong></button>
                 </div>
@@ -36,7 +36,7 @@
         {% include '_deletemodal.html'%}
         <div class="border-left border-right border-bottom pl-2 pt-2" style="height: 450px; overflow-y: auto">
             <div class="mb-2 mt-1">
-                <a href="{% url 'profile' article.user.username %}" class="text-dark">
+                <a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none">
                 <img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="40" width="40" />
                 <h5 class="d-inline">{{article.user}}</h5>
             </a>
@@ -49,7 +49,7 @@
             <div class="m-0 d-block">
                 <div class="d-flex justify-content-between">
                     <p class="mb-0 p-0 d-block">
-                        <a href="{% url 'profile' comment.user.username %}" class="text-dark">
+                        <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
                         <img src="{{comment.user.gravatar_url}}" class="rounded-circle" height="40" width="40" />
                         <strong>{{comment.user}}</strong>
                         </a>
@@ -110,7 +110,7 @@
 
                 {% endif %}
             </p>
-            <p class="mt-0"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
+            <p class="mt-0 text-secondary"><small>{{ article.created_at|date:'Y-m-d H:i' }}</small></p>
             <div>
                 <form action="{% url 'articles:comment_create' article.pk %}" method="POST"
                     enctype="multipart/form-data" class="d-flex">
