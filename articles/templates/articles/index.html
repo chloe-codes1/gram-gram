@@ -27,7 +27,7 @@
   {% endif %}
 
   {% for article in articles %}
-  <div class="card m-auto rounded-0"  style="width: 750px">
+  <div class="card m-auto rounded-0 col-sm-12 col-md-9" >
   <div class="card-header d-flex justify-content-between bg-white pb-1"> 
     <h5 class="card-title">
       <a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="50" width="50"/>

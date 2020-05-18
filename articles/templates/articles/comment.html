@@ -10,7 +10,7 @@
 
 
 <div class="row mt-4" style="height:700px">
-    <div class="col-xl-8 col-md-12 d-none d-sm-none d-md-block d-lg-block d-xl-block">
+    <div class="col-xl-8 d-none d-sm-none d-md-none d-lg-none d-xl-block">
         <div class="d-flex align-items-center h-100">
             <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2" />
         </div>
@@ -89,7 +89,7 @@
                         enctype="multipart/form-data" class="d-flex">
                         {% bootstrap_form form %}
                         {% csrf_token %}
-                        <input type="hidden" name="parent_id" value="{{ comment.pk }}">
+                        <input type="hidden" name="parent_id" value="{{ comment.pk }}" >
                         <input class="btn btn-primary" type="submit" value="Reply" style="height: 47px;">
                     </form>
                 </div>
