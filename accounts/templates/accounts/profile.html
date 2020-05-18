@@ -60,9 +60,9 @@
 
 <div class="row">
 {% for article in person.article_set.all%}
-  <div class="col-lg-4 col-md-12 d-flex align-items-center">
+  <div class="col-4 d-flex align-items-center">
     <a href="{% url 'articles:comments' article.pk %}">
-        <img src="{{article.image_thumbnail.url}}" class="pb-2" width="350"/>
+        <img src="{{article.image_thumbnail.url}}" class="pb-2" width="100%"/>
     </a>
   </div>
 

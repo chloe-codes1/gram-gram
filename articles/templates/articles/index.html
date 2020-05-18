@@ -58,7 +58,7 @@
   {% include '_deletemodal.html'%}
 
   <div class="card-body col-12">
-    <img src="{{article.image_thumbnail.url}}" class="d-block m-auto pb-2"/>
+    <img src="{{article.image_thumbnail.url}}" class="pb-2" width="100%"/>
   <div>
     <span>{% include 'articles/like.html'%}</span>
     <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
