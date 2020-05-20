@@ -35,18 +35,33 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # pip
     'django_extensions',
     'bootstrap4',
+    'bootstrap_pagination',
     'mathfilters',
+
+    # django original
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', #new
     'storages',
+
+    # my apps
     'articles',
     'accounts',
+
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+
 ]
 
 MIDDLEWARE = [
@@ -147,6 +162,38 @@ MEDIA_URL = '/media/'
 # 내가 정의한 User 쓸꺼얌
 AUTH_USER_MODEL = 'accounts.User'
 
+# allauth setting
+AUTHENTICATOIN_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID =1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+        'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    }
+}
+
+LOGIN_REDIRECT_URL =''
+
+
+
+
 # IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
 
 DEFAULT_FILE_STORAGE = 'crud.storages.MediaStorage'
@@ -168,3 +215,5 @@ AWS_S3_SIGNATURE_VERSION = "s3v4"
 import dj_database_url 
 db_from_env = dj_database_url.config(conn_max_age=500) 
 DATABASES['default'].update(db_from_env)
+
+

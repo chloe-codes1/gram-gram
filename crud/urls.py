@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', include('articles.urls')),
     path('accounts/', include('accounts.urls')),
+    # 우리가 정의한 accounts.url 아래에
+    path('accounts/', include('allauth.urls')),
     path('<str:username>/follow/', accounts_views.follow, name='follow'),
     path('<str:username>/', accounts_views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
