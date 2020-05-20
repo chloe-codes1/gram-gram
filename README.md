@@ -26,6 +26,9 @@
 
 - #### Authentication
 
+  - `Google Login API`
+  - `Github Login API`
+
 - #### Hash tags
   
   - Sort posts by hash tag
