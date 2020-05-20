@@ -10,9 +10,9 @@
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-center">
-    <div>
-        <img src="{{person.gravatar_url}}" class="rounded-circle" />
-        <p class="d-inline ml-4" style="font-size: 2rem">{{ person.username }}</p>
+    <div class="col-md-3 col-sm-1 text-center">
+        <img src="{{person.gravatar_url}}" class="rounded-circle w-75" />
+        <p class="d-inline w-75" style="font-size: 2rem">{{ person.username }}</p>
     </div>
     <div class="d-flex">
         <div class="text-center d-inline px-2">
