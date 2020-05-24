@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 {% load article_extras %}
 {% load mathfilters %}
 
@@ -63,16 +64,20 @@
     <span>{% include 'articles/like.html'%}</span>
     <span><a href="{% url 'articles:comments' article.pk %}"><i class="far fa-comment text-secondary" style='font-size:27px'></i></a></span>
   </div>
+
     <p data-toggle="modal" data-target="#likesModal"> 
       {% if article.liked_users.count >= 2 %}
-        Liked by {{article.liked_users.first }} and {{article.liked_users.count|sub:1}} others
+        <span id="firstLiker-{{article.pk}}">Liked by {{article.liked_users.first}}</span>
+        <span id="likeCount-{{article.pk}}">and {{article.liked_users.count|sub:1}} others</span> 
       {% elif article.liked_users.count == 1 %}
-        Liked by {{article.liked_users.first }}
+        <span id="firstLiker-{{article.pk}}">Liked by {{article.liked_users.first}}</span>
+        <span id="likeCount-{{article.pk}}" class="d-none"></span>
       {% else %}
-
+        <span id="firstLiker-{{article.pk}}" class="d-none"></span> <span id="likeCount-{{article.pk}}" class="d-none"></span>
       {% endif %}
-
     </p>
+
+
     <h5 class="card-title">{{article.title}}</h5>
     <p>{{article|add_link|safe|linebreaksbr}}</p>
 
@@ -113,7 +118,6 @@
   </div>
   </div>
 
-  {% include '_likesmodal.html' %}
 
   {% empty %}
   <h3 class="text-center pt-5 mb-3">There is no post!</h3>
@@ -121,22 +125,51 @@
   <a class="btn btn-warning text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
   {% endfor %}
 
-  <script type='text/javascript'>
 
-    (function()
-    {
-      if( window.localStorage )
-      {
-        if( !localStorage.getItem('firstLoad') )
-        {
-          localStorage['firstLoad'] = true;
-          window.location.reload();
-        }  
-        else
-          localStorage.removeItem('firstLoad');
-      }
-    })();
-    
-    </script>
+<script>
+const likeButtons = document.querySelectorAll('.likeButtons')
+ likeButtons.forEach( likeButton =>{
+
+ likeButton.addEventListener('click', event => {
+    const articleID =event.target.dataset.id
+    {% if user.is_authenticated %}
+        axios.get(`/articles/${articleID}/like/`)
+        .then( response => {
+            likeCount = response.data.count
+            console.log('???', likeCount)
+            if (likeCount == 0){
+              likeCount = document.querySelector(`#likeCount-${articleID}`).classList.add('d-none')
+              firstLiker = document.querySelector(`#firstLiker-${articleID}`).classList.add('d-none')
+            }else if (likeCount == 1){
+              likeCount = document.querySelector(`#likeCount-${articleID}`).classList.add('d-none')
+              firstLiker = document.querySelector(`#firstLiker-${articleID}`)
+              firstLiker.innerText = 'Liked by ' + response.data.first
+              firstLiker.classList.remove('d-none')
+            }else {
+              firstLiker = document.querySelector(`#firstLiker-${articleID}`)
+              firstLiker.innerText = 'Liked by ' + response.data.first
+              firstLiker.classList.remove('d-none')
+              likeCount = document.querySelector(`#likeCount-${articleID}`)
+              likeCount.classList.remove('d-none')
+              likeCount.innerText = ' and ' + (response.data.count -1) + 'others'
+            }
+
+            if (response.data.liked){
+                event.target.classList.remove('far', 'animated', 'infinite', 'bounce', 'slow', 'delay-1s')
+                event.target.classList.add('fas')
+            }
+            else {
+                event.target.classList.remove('fas')
+                event.target.classList.add('far', 'animated', 'infinite', 'bounce', 'slow', 'delay-1s')
+
+            }
+        })
+    {% else %}
+        alert('Please login!')
+    {% endif %}
+    })
+})
+  </script>
+
 
 {% endblock %}

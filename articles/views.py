@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
@@ -72,19 +72,43 @@ def update(request, pk):
         messages.warning(request, "Editting other people's post is not allowed")
         return redirect('articles:index')
 
+# @login_required
+# def like(request, article_id):
+#     article = get_object_or_404(Article, id=article_id)
+#     user = request.user
+#     # ver1)
+#     # if request.user in article.liked_users.all():
+    
+#     # ver2)
+#     if article.liked_users.filter(id=user.id).exists():
+#         article.liked_users.remove(user) #id 넣어도 되지만 django는 똑똑해서 객체 자체를 넣어줘도 됨
+#     else:
+#         article.liked_users.add(user)
+#     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 @login_required
 def like(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
     user = request.user
-    # ver1)
-    # if request.user in article.liked_users.all():
-    
-    # ver2)
+    article = get_object_or_404(Article, id=article_id)
     if article.liked_users.filter(id=user.id).exists():
-        article.liked_users.remove(user) #id 넣어도 되지만 django는 똑똑해서 객체 자체를 넣어줘도 됨
+        article.liked_users.remove(user)
+        liked=False
     else:
         article.liked_users.add(user)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        liked=True
+
+    if article.liked_users.count() > 0:
+        first = article.liked_users.all()[0].username
+    else:
+        first = None
+    
+    context = {
+        'liked':liked,
+        'count': article.liked_users.count(),
+        'first': first,
+    }
+    return JsonResponse(context)
+
 
 def comments(request, article_id):
     article = get_object_or_404(Article, id=article_id)
