@@ -34,12 +34,16 @@
       <a href="{% url 'profile' article.user.username %}" class="text-dark text-decoration-none"><img src="{{article.user.gravatar_url}}" class="rounded-circle mr-2" height="50" width="50"/>
         <strong>{{ article.user.username }}</strong>
       </a> 
-       <a href="{% url 'follow' article.user.username %}" class="text-primary ml-3" style="font-size: 0.9rem"> 
+
+      {% if request.user != article.user %}
+       <a href="{% url 'follow' article.user.username %}" class="text-primary ml-3 text-decoration-none" style="font-size: 0.9rem"> 
             {% if request.user not in article.user.followers.all and request.user != article.user%}
-                Follow
+              Follow
+            {% else %}
+              Following
             {% endif %}
         </a>      
-
+      {% endif %}
     </h5>
     
 
@@ -118,58 +122,18 @@
   </div>
   </div>
 
+  {% include '_likesmodal.html' %}
 
   {% empty %}
+  
+  
   <h3 class="text-center pt-5 mb-3">There is no post!</h3>
   <p class="text-center pb-2">Upload your first gram-gram photo today.</p>
   <a class="btn btn-warning text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
+  
+  
   {% endfor %}
 
-
-<script>
-const likeButtons = document.querySelectorAll('.likeButtons')
- likeButtons.forEach( likeButton =>{
-
- likeButton.addEventListener('click', event => {
-    const articleID =event.target.dataset.id
-    {% if user.is_authenticated %}
-        axios.get(`/articles/${articleID}/like/`)
-        .then( response => {
-            likeCount = response.data.count
-            console.log('???', likeCount)
-            if (likeCount == 0){
-              likeCount = document.querySelector(`#likeCount-${articleID}`).classList.add('d-none')
-              firstLiker = document.querySelector(`#firstLiker-${articleID}`).classList.add('d-none')
-            }else if (likeCount == 1){
-              likeCount = document.querySelector(`#likeCount-${articleID}`).classList.add('d-none')
-              firstLiker = document.querySelector(`#firstLiker-${articleID}`)
-              firstLiker.innerText = 'Liked by ' + response.data.first
-              firstLiker.classList.remove('d-none')
-            }else {
-              firstLiker = document.querySelector(`#firstLiker-${articleID}`)
-              firstLiker.innerText = 'Liked by ' + response.data.first
-              firstLiker.classList.remove('d-none')
-              likeCount = document.querySelector(`#likeCount-${articleID}`)
-              likeCount.classList.remove('d-none')
-              likeCount.innerText = ' and ' + (response.data.count -1) + 'others'
-            }
-
-            if (response.data.liked){
-                event.target.classList.remove('far', 'animated', 'infinite', 'bounce', 'slow', 'delay-1s')
-                event.target.classList.add('fas')
-            }
-            else {
-                event.target.classList.remove('fas')
-                event.target.classList.add('far', 'animated', 'infinite', 'bounce', 'slow', 'delay-1s')
-
-            }
-        })
-    {% else %}
-        alert('Please login!')
-    {% endif %}
-    })
-})
-  </script>
-
+  <script type="text/javascript" src="{% static 'js/like.js' %}"></script>
 
 {% endblock %}

@@ -83,5 +83,5 @@ def update(request):
 @login_required
 def delete(request):
     request.user.delete()
-    messages.add_message(request, messages.DANGER, "Your account has been deleted.")
+    messages.add_message(request, messages.ERROR, "Your account has been deleted.")
     return redirect('articles:index')

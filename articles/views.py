@@ -72,6 +72,7 @@ def update(request, pk):
         messages.warning(request, "Editting other people's post is not allowed")
         return redirect('articles:index')
 
+# [ axios로 바꾸기 전 ]
 # @login_required
 # def like(request, article_id):
 #     article = get_object_or_404(Article, id=article_id)
@@ -96,7 +97,6 @@ def like(request, article_id):
     else:
         article.liked_users.add(user)
         liked=True
-
     if article.liked_users.count() > 0:
         first = article.liked_users.all()[0].username
     else:
