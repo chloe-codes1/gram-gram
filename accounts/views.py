@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, logout as auth_logout, get_user_model
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib import messages
 
@@ -48,14 +48,18 @@ def logout(request):
 def follow(request, username):
     person = get_object_or_404(User, username=username)
     user = request.user
-    # ver1)
     if user in person.followers.all():
-    # ver2)
-    # if person.followers.filter(username=username).exists():
         person.followers.remove(user)
+        following = False
     else:
         person.followers.add(user)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        following = True
+    context = {
+        'following': following,
+        'followingCount': person.followings.count(),
+        'followerCount': person.followers.count(),
+    }
+    return JsonResponse(context)
 
 def profile(request, username):
     #해당 유저 (username)의 정보를 보여줌

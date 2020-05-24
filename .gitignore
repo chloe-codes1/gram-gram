@@ -4,6 +4,7 @@
 __pycache__
 myvenv
 db.sqlite3
+/static
 .DS_Store
 deploy.json
 data.json
@@ -14,4 +15,5 @@ fabfile.py
 *.pot  
 local_settings.py 
 media
+static
 .env

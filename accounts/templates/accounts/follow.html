@@ -1,0 +1,9 @@
+{% if request.user != article.user %}
+<span class="text-primary ml-3 text-decoration-none followButtons" data-name="{{article.user.username}}" style="font-size: 0.9rem"> 
+     {% if request.user not in article.user.followers.all%}
+       Follow 
+     {% else %}
+       Following
+     {% endif %}
+ </span>      
+{% endif %}

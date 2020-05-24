@@ -6,7 +6,6 @@
     {{person.username}} |
 {% endblock %}
 
-
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-center">
@@ -20,11 +19,11 @@
             <p class="text-center ">Posts</p>
         </div>
         <div class="text-center d-inline px-2" data-toggle="modal" data-target="#followersModal">
-            <p class="text-center">{{person.followers.count}}</p>
+            <p class="text-center followerCount">{{person.followers.count}}</p>
             <p class="text-center">Followers</p>
         </div>
         <div class="text-center d-inline px-2" data-toggle="modal" data-target="#followingModal">
-            <p class="text-center ">{{person.followings.count}}</p>
+            <p class="text-center followingCount">{{person.followings.count}}</p>
             <p class="text-center ">Following</p>
         </div>
     </div>
@@ -45,15 +44,15 @@
     {% include '_accountdelete.html'%}
 {% else %}
     
-        <a href="{% url 'follow' person.username %}" class="d-block w-50 m-auto btn btn-warning text-white"> 
-            <strong>
-            {% if request.user in person.followers.all %}
-                Following
-            {% else %}
-                Follow
-            {% endif %}
-            </strong>
-        </a>
+    <span href="{% url 'follow' person.username %}" class="d-block w-50 m-auto btn btn-warning text-white"> 
+        <strong id="followButton" data-name="{{person.username}}">
+        {% if request.user in person.followers.all %}
+            Following
+        {% else %}
+            Follow
+        {% endif %}
+        </strong>
+    </span>
     
 {% endif %}
 </p>
@@ -73,5 +72,27 @@
     <a class="btn btn-info text-white d-block w-25 m-auto" href="{% url 'articles:create' %}" style='font-size:22px;'><strong>Write a Post</strong> </a>
   </div>
     {% endfor %}
-      </div>
+</div>
+
+<script>
+const followButton = document.querySelector('#followButton')
+followButton.addEventListener('click', event => {
+    const userName = event.target.dataset.name
+    {% if user.is_authenticated %}
+        axios.get(`/${userName}/follow/`)
+        .then (response => {
+            followingCount = document.querySelector('.followingCount').innerText = response.data.followingCount
+            followerCount = document.querySelector('.followerCount').innerText = response.data.followerCount
+            if (response.data.following){
+                event.target.innerText = 'Following'
+            }else {
+                event.target.innerText = 'Follow'
+            }
+        })
+    {% else %}
+        alert('Please login!')
+    {% endif %}
+})
+</script>
+
 {% endblock %}
