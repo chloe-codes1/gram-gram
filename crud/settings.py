@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+# .env 읽어오는용!
 from dotenv import load_dotenv
 load_dotenv()
 
