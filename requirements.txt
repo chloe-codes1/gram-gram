@@ -26,7 +26,7 @@ django-imagekit==4.0.2
 django-jquery==3.1.0
 django-mathfilters==1.0.0
 django-storages==1.9.1
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 docutils==0.15.2
 drf-serializer-cache==0.3.3
 drf-yasg==1.17.1
